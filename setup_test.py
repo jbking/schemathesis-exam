@@ -7,6 +7,12 @@ def after_load_schema(
     schema: schemathesis.schemas.BaseSchema,
 ) -> None:
     schema.add_link(
+        source=schema["/items/"]["POST"],
+        target=schema["/items/{item_id}"]["GET"],
+        status_code=201,
+        parameters={"item_id": "$response.body#/item_id"},
+    )
+    schema.add_link(
         source=schema["/items/"]["GET"],
         target=schema["/items/{item_id}"]["GET"],
         status_code=200,
